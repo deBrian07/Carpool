@@ -1,31 +1,16 @@
-import googlemaps
-from prompt_toolkit import prompt
-from prompt_toolkit.completion import Completer, Completion
-import os
+import itertools
 
+# Function to generate all permutations
+def all_combinations(array):
+    permutations = list(itertools.permutations(array))
+    return permutations
 
-# Initialize the Google Maps client with your API key
-API_KEY = 'AIzaSyDqUQ612HWNtf4_NKSlY_OHhuSaU4uOGGk'
-gmaps = googlemaps.Client(key=API_KEY)
+# Example array
+array = [1, 2, 3, 4, 5, 6, 7]
 
-class AddressCompleter(Completer):
-    def get_completions(self, document, complete_event):
-        if len(document.text) < 3:
-            return
-        
-        query = document.text
-        suggestions = get_place_suggestions(query)
-        for suggestion in suggestions[:5]:
-            yield Completion(suggestion['description'], start_position=-len(query))
+# Generate all permutations
+combinations = all_combinations(array)
 
-def get_place_suggestions(query):
-    response = gmaps.places_autocomplete(input_text=query)
-    return response
-
-def display_selected_address(address):
-    print(f"\nYou selected: {address}")
-
-if __name__ == "__main__":
-    completer = AddressCompleter()
-    address = prompt("Current Address: ", completer=completer)
-    display_selected_address(address)
+# Print all permutations
+for combination in combinations:
+    print(combination)
